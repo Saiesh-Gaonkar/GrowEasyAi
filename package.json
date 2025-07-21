@@ -1,0 +1,28 @@
+{
+  "name": "groweasyai",
+  "version": "1.0.0",
+  "description": "AI-powered education and career platform for students in Tier-2 and Tier-3 cities of India",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "install-all": "npm install && npm run install-server && npm run install-client"
+  },
+  "keywords": [
+    "education",
+    "career",
+    "ai",
+    "mern",
+    "students",
+    "india"
+  ],
+  "author": "GrowEasyAI Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
