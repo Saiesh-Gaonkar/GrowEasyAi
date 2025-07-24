@@ -1,22 +1,23 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
   chatWithAI,
   submitAssessment,
   getCareerRecommendations,
   getCareerProfile,
   getPersonalizedInsights
-} = require('../controllers/ai.controller');
-const { protect } = require('../middleware/auth.middleware');
+} from '../controllers/ai.controller.js';
+import { protect } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-// All AI routes are protected
-router.use(protect);
-
+// Chat endpoint - public for demo, but can be protected
 router.post('/chat', chatWithAI);
+
+// Protected routes
+router.use(protect);
 router.post('/assessment', submitAssessment);
 router.get('/recommendations', getCareerRecommendations);
 router.get('/profile', getCareerProfile);
 router.get('/insights', getPersonalizedInsights);
 
-module.exports = router;
+export default router;

@@ -11,6 +11,7 @@ import CoursesPage from './pages/CoursesPage'
 import CourseDetailPage from './pages/CourseDetailPage'
 import JobsPage from './pages/JobsPage'
 import JobDetailPage from './pages/JobDetailPage'
+import JobPostPage from './pages/JobPostPage'
 import AIAssessmentPage from './pages/AIAssessmentPage'
 import ProfilePage from './pages/ProfilePage'
 
@@ -29,6 +30,11 @@ function App() {
               <Route path="/courses/:id" element={<CourseDetailPage />} />
               <Route path="/jobs" element={<JobsPage />} />
               <Route path="/jobs/:id" element={<JobDetailPage />} />
+              <Route path="/jobs/post" element={
+                <ProtectedRoute>
+                  <JobPostPage />
+                </ProtectedRoute>
+              } />
               
               {/* Protected Routes */}
               <Route path="/dashboard" element={

@@ -1,5 +1,56 @@
-const JobPosting = require('../models/JobPosting.model');
-const User = require('../models/User.model');
+import JobPosting from '../models/JobPosting.model.js';
+import User from '../models/User.model.js';
+import Course from '../models/Course.model.js';
+
+// @desc    Create a new job posting
+// @route   POST /api/jobs
+// @access  Private (Admin/Employer only)
+const createJob = async (req, res) => {
+  try {
+    // Check if user is authorized to post jobs
+    if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'employer')) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to post jobs'
+      });
+    }
+
+    const jobData = {
+      ...req.body,
+      postedBy: req.user._id
+    };
+
+    const job = await JobPosting.create(jobData);
+    
+    const populatedJob = await JobPosting.findById(job._id)
+      .populate('postedBy', 'name email');
+
+    res.status(201).json({
+      success: true,
+      message: 'Job posted successfully',
+      data: {
+        job: populatedJob
+      }
+    });
+  } catch (error) {
+    console.error('Create job error:', error);
+    
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const errors = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Server error creating job'
+    });
+  }
+};
 
 // @desc    Get all jobs
 // @route   GET /api/jobs
@@ -353,6 +404,18 @@ const getJobRecommendations = async (req, res) => {
     // Sort by match score
     scoredRecommendations.sort((a, b) => b.matchScore - a.matchScore);
 
+    // --- Recommended Courses Logic ---
+    let recommendedCourses = [];
+    if (userSkills.length > 0) {
+      recommendedCourses = await Course.find({
+        isActive: true,
+        skills: { $in: userSkills.map(skill => new RegExp(skill, 'i')) }
+      })
+      .select('title description category level skills rating enrolledStudents thumbnail')
+      .sort({ enrolledStudents: -1, rating: -1 })
+      .limit(3);
+    }
+
     res.json({
       success: true,
       data: {
@@ -362,7 +425,8 @@ const getJobRecommendations = async (req, res) => {
           skills: userSkills,
           location: userLocation,
           education: userEducation
-        }
+        },
+        recommendedCourses // <-- Added to response
       }
     });
   } catch (error) {
@@ -374,7 +438,8 @@ const getJobRecommendations = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
+  createJob,
   getJobs,
   getJob,
   searchJobs,

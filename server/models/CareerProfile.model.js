@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const careerProfileSchema = new mongoose.Schema({
   user: {
@@ -134,4 +134,4 @@ const careerProfileSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('CareerProfile', careerProfileSchema);
+export default mongoose.model('CareerProfile', careerProfileSchema);

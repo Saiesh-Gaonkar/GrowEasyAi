@@ -1,5 +1,5 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
   getCourses,
   getCourse,
   enrollInCourse,
@@ -7,8 +7,8 @@ const {
   updateProgress,
   submitQuizAnswer,
   searchCourses
-} = require('../controllers/course.controller');
-const { protect } = require('../middleware/auth.middleware');
+} from '../controllers/course.controller.js';
+import { protect } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
@@ -23,4 +23,4 @@ router.get('/user/enrolled', protect, getEnrolledCourses);
 router.put('/progress/:courseId', protect, updateProgress);
 router.post('/quiz/:courseId/:moduleId', protect, submitQuizAnswer);
 
-module.exports = router;
+export default router;

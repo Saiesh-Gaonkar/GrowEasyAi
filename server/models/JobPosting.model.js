@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const jobPostingSchema = new mongoose.Schema({
   title: {
@@ -144,4 +144,4 @@ jobPostingSchema.index({
   requiredSkills: 'text'
 });
 
-module.exports = mongoose.model('JobPosting', jobPostingSchema);
+export default mongoose.model('JobPosting', jobPostingSchema);

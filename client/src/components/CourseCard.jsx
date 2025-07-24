@@ -37,15 +37,9 @@ const CourseCard = ({ course }) => {
           </span>
         </div>
         <div className="absolute top-2 right-2">
-          {isFree ? (
-            <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">
-              Free
-            </span>
-          ) : (
-            <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-              ₹{price}
-            </span>
-          )}
+          <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">
+            Free
+          </span>
         </div>
       </div>
 

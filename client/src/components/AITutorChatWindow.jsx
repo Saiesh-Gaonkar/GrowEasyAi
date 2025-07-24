@@ -1,6 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Bot, User, X, Minimize2, MessageCircle } from 'lucide-react'
 import axios from 'axios'
+import { translateText } from '../utils/translate';
+
+const LANGUAGES = [
+  { code: 'en', label: 'English' },
+  { code: 'hi', label: 'Hindi' },
+  { code: 'mr', label: 'Marathi' }
+];
 
 const AITutorChatWindow = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -14,6 +21,9 @@ const AITutorChatWindow = () => {
   ])
   const [inputMessage, setInputMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [targetLang, setTargetLang] = useState('en');
+  const [apiKey, setApiKey] = useState(''); // Set this from props or context if needed
+  const [translatedMessage, setTranslatedMessage] = useState('');
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
@@ -75,6 +85,21 @@ const AITutorChatWindow = () => {
       hour12: true
     }).format(date)
   }
+
+  // Translation handler
+  const handleTranslate = async (text) => {
+    if (targetLang === 'en') {
+      setTranslatedMessage(text);
+      return;
+    }
+    try {
+      setTranslatedMessage('Translating...');
+      const translated = await translateText(text, targetLang, apiKey);
+      setTranslatedMessage(translated);
+    } catch (err) {
+      setTranslatedMessage('Translation failed.');
+    }
+  };
 
   if (!isOpen) {
     return (
@@ -190,6 +215,29 @@ const AITutorChatWindow = () => {
           Press Enter to send • Powered by OpenAI • Responses may take a moment
         </p>
       </div>
+
+      {/* Translation Feature */}
+      <div className="flex items-center gap-2 mb-2">
+        <label htmlFor="lang-select" className="text-sm">Translate to:</label>
+        <select id="lang-select" value={targetLang} onChange={e => setTargetLang(e.target.value)} className="border rounded px-2 py-1">
+          {LANGUAGES.map(lang => (
+            <option key={lang.code} value={lang.code}>{lang.label}</option>
+          ))}
+        </select>
+      </div>
+      {/* Show last AI message with translation option */}
+      {messages.length > 0 && messages[messages.length-1].sender === 'ai' && (
+        <div className="mt-2">
+          <button className="btn-secondary mb-2" onClick={() => handleTranslate(messages[messages.length-1].text)}>
+            Translate Last AI Response
+          </button>
+          {translatedMessage && (
+            <div className="bg-gray-100 p-2 rounded text-sm">
+              <strong>Translation:</strong> {translatedMessage}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

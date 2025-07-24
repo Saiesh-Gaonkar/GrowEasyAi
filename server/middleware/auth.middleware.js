@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.model');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.model.js';
 
-const protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   try {
     let token;
 
@@ -34,27 +34,25 @@ const protect = async (req, res, next) => {
     } catch (error) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid token'
+        message: 'Token is not valid'
       });
     }
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: 'Server error in authentication middleware'
+      message: 'Server error in authentication'
     });
   }
 };
 
 // Admin middleware
-const admin = (req, res, next) => {
+export const admin = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();
   } else {
     res.status(403).json({
       success: false,
-      message: 'Access denied. Admin privileges required.'
+      message: 'Access denied. Admin only.'
     });
   }
 };
-
-module.exports = { protect, admin };

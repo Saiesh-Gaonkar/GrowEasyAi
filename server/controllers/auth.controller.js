@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator');
-const User = require('../models/User.model');
+import jwt from 'jsonwebtoken';
+import { validationResult } from 'express-validator';
+import User from '../models/User.model.js';
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -224,7 +224,7 @@ const changePassword = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   register,
   login,
   getProfile,

@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const Course = require('../models/Course.model');
-const JobPosting = require('../models/JobPosting.model');
-const User = require('../models/User.model');
+import Course from '../models/Course.model.js';
+import JobPosting from '../models/JobPosting.model.js';
+import User from '../models/User.model.js';
 
-const connectDB = require('../config/database');
+import connectDB from '../config/database.js';
 
 // Sample courses data
 const sampleCourses = [

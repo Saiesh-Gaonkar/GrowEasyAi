@@ -1,13 +1,13 @@
-const { 
+import { 
   getAIResponse, 
   analyzeCareerProfile, 
   generateLearningRecommendations,
   generateJobRecommendations,
   isOpenAIAvailable 
-} = require('../utils/aiUtils');
-const CareerProfile = require('../models/CareerProfile.model');
-const User = require('../models/User.model');
-const Course = require('../models/Course.model');
+} from '../utils/aiUtils.js';
+import CareerProfile from '../models/CareerProfile.model.js';
+import User from '../models/User.model.js';
+import Course from '../models/Course.model.js';
 
 // @desc    Chat with AI tutor
 // @route   POST /api/ai/chat
@@ -145,8 +145,7 @@ const submitAssessment = async (req, res) => {
 
     await careerProfile.save();
 
-    // Update user's assessment results
-    const user = await User.findById(req.user.id);
+    // Update user's assessment results (reuse existing user variable)
     user.assessmentResults = {
       personalityType: analysisResult.personalityType,
       strengths: analysisResult.strengths || ['Problem-solving', 'Adaptability'],
@@ -313,7 +312,7 @@ const getRecommendedCourses = async (careerProfile) => {
   }
 };
 
-module.exports = {
+export {
   chatWithAI,
   submitAssessment,
   getCareerRecommendations,

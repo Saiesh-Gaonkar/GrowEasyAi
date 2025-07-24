@@ -400,15 +400,16 @@ const isOpenAIAvailable = () => {
   return !!openai;
 };
 
-module.exports = {
+export {
   initializeAI,
   getAIResponse,
   analyzeCareerProfile,
   generateLearningRecommendations,
   generateJobRecommendations,
   isAIAvailable,
-  isOpenAIAvailable,
-  // Legacy exports for backward compatibility
-  initializeLLM: initializeAI,
-  getLLMResponse: getAIResponse
+  isOpenAIAvailable
 };
+
+// Legacy exports for backward compatibility
+export const initializeLLM = initializeAI;
+export const getLLMResponse = getAIResponse;

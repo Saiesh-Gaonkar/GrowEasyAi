@@ -10,16 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.6.0",
+    "lucide-react": "^0.290.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.18.0",
-    "axios": "^1.6.0",
-    "lucide-react": "^0.290.0"
+    "react-feather": "^2.0.10",
+    "react-helmet-async": "^2.0.5",
+    "react-router-dom": "^6.30.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
-    "@vitejs/plugin-react": "^4.1.1",
+    "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.53.0",
     "eslint-plugin-react": "^7.33.2",

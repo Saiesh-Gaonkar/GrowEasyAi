@@ -1,5 +1,5 @@
-const Course = require('../models/Course.model');
-const User = require('../models/User.model');
+import Course from '../models/Course.model.js';
+import User from '../models/User.model.js';
 
 // @desc    Get all courses
 // @route   GET /api/courses
@@ -368,7 +368,7 @@ const submitQuizAnswer = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getCourses,
   getCourse,
   searchCourses,
